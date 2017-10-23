@@ -1,18 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="at.fhooe.mc.magicmarbles.StartActivity">
+    android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:text="Welcome! Please select the size of the game board."
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/numColsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/welcome"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="Number of Columns:"/>
+
+    <EditText
+        android:id="@+id/numCols"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/numColsLabel"
+        android:layout_marginRight="-70dp"
+        android:layout_alignTop="@+id/numColsLabel"
+        android:layout_marginTop="-13dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="10"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/numRowsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/welcome"
+        android:layout_marginTop="100dp"
+        android:layout_alignRight="@+id/numColsLabel"
+        android:text="Number of Rows:"/>
+
+    <EditText
+        android:id="@+id/numRows"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/numCols"
+        android:layout_marginRight="-70dp"
+        android:layout_alignTop="@+id/numRowsLabel"
+        android:layout_marginTop="-13dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="10"
+        android:maxLines="1" />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/numRowsLabel"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="97dp"
+        android:text="Start" />
+
+</RelativeLayout>
