@@ -2,13 +2,13 @@ package at.fhooe.mc.magicmarbles.game;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import at.fhooe.mc.magicmarbles.App;
 import at.fhooe.mc.magicmarbles.R;
@@ -45,10 +45,28 @@ public class GameActivity extends Activity {
         super.onStart();
         marbleButtons = new ArrayList<>();
         FrameLayout layout = (FrameLayout) findViewById(R.id.gameBoard);
+        calculateMarbleSize();
         for (Marble marble : model.getMarbles()) {
             MarbleButton btn = new MarbleButton(this, marble);
             marbleButtons.add(btn);
             layout.addView(btn);
+        }
+    }
+
+    private void calculateMarbleSize(){
+        ViewTreeObserver viewTreeObserver = findViewById(R.id.gameBoard).getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    View view = findViewById(R.id.gameBoard);
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int maxWidth = view.getWidth() / model.getSettings().numCols;
+                    int maxHeight = view.getHeight() / model.getSettings().numRows;
+                    MarbleButton.setMarbleSize(maxWidth < maxHeight ? maxWidth : maxHeight);
+                    model.getView().update();
+                }
+            });
         }
     }
 

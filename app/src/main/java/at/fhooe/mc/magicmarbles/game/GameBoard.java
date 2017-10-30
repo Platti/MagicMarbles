@@ -21,6 +21,10 @@ public class GameBoard {
         this.view = view;
     }
 
+    public GameActivity getView() {
+        return view;
+    }
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -135,12 +139,10 @@ public class GameBoard {
                 }
             }
         }
-
     }
 
-
     private Optional<Marble> get(int col, int row) {
-        if (col >= 0 && col < settings.numCols && row >= 0 && row < settings.numCols) {
+        if (col >= 0 && col < settings.numCols && row >= 0 && row < settings.numRows) {
             return Optional.ofNullable(marbles[col][row]);
         } else {
             return Optional.empty();

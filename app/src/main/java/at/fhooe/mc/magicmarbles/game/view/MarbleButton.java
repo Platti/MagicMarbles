@@ -16,9 +16,8 @@ import at.fhooe.mc.magicmarbles.game.elements.MarbleColor;
  */
 
 public class MarbleButton extends ImageButton {
-    private static final int BTN_SIZE = 105;
-
     private Marble marble;
+    static private int size = 100;
 
     public Marble getMarble() {
         return marble;
@@ -48,9 +47,13 @@ public class MarbleButton extends ImageButton {
         update();
     }
 
+    public static void setMarbleSize(int size){
+        MarbleButton.size = size;
+    }
+
     public void update() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(BTN_SIZE, BTN_SIZE);
-        params.setMargins(marble.getPosition().col * BTN_SIZE, marble.getPosition().row * BTN_SIZE, 0, 0);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size);
+        params.setMargins(marble.getPosition().col * size, marble.getPosition().row * size, 0, 0);
         setLayoutParams(params);
     }
 }
