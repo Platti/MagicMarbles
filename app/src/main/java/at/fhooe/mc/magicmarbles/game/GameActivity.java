@@ -1,11 +1,14 @@
 package at.fhooe.mc.magicmarbles.game;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +64,7 @@ public class GameActivity extends Activity {
                 public void onGlobalLayout() {
                     View view = findViewById(R.id.gameBoard);
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    int maxWidth = view.getWidth() / model.getSettings().numCols;
-                    int maxHeight = view.getHeight() / model.getSettings().numRows;
-                    MarbleButton.setMarbleSize(maxWidth < maxHeight ? maxWidth : maxHeight);
+                    MarbleButton.fitSize(view, model.getSettings());
                     model.getView().update();
                 }
             });
@@ -74,5 +75,21 @@ public class GameActivity extends Activity {
         for (MarbleButton marbleButton : marbleButtons) {
             marbleButton.update();
         }
+        ((TextView)(findViewById(R.id.marblesLeft))).setText(String.valueOf(model.getNumMarbles()));
+        ((TextView)(findViewById(R.id.score))).setText(String.valueOf(model.getScore()));
+    }
+
+    public void gameOver() {
+        AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
+        alertDialog.setTitle("Game Over!");
+        alertDialog.setMessage("Congratulations! You achieved " + model.getScore() + " points.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Return to menu",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        GameActivity.this.finish();
+                    }
+                });
+        alertDialog.show();
     }
 }

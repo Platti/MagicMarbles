@@ -2,12 +2,14 @@ package at.fhooe.mc.magicmarbles.game.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import at.fhooe.mc.magicmarbles.R;
 import at.fhooe.mc.magicmarbles.game.GameActivity;
+import at.fhooe.mc.magicmarbles.game.Settings;
 import at.fhooe.mc.magicmarbles.game.elements.Marble;
 import at.fhooe.mc.magicmarbles.game.elements.MarbleColor;
 
@@ -18,6 +20,8 @@ import at.fhooe.mc.magicmarbles.game.elements.MarbleColor;
 public class MarbleButton extends ImageButton {
     private Marble marble;
     static private int size = 100;
+    static private int marginLeft = 0;
+    static private int marginTop = 0;
 
     public Marble getMarble() {
         return marble;
@@ -47,13 +51,18 @@ public class MarbleButton extends ImageButton {
         update();
     }
 
-    public static void setMarbleSize(int size){
-        MarbleButton.size = size;
-    }
-
     public void update() {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size);
-        params.setMargins(marble.getPosition().col * size, marble.getPosition().row * size, 0, 0);
+        params.setMargins(marble.getPosition().col * size + marginLeft, marble.getPosition().row * size + marginTop, 0, 0);
         setLayoutParams(params);
+    }
+
+    public static void fitSize(View view, Settings settings) {
+        int maxWidth = view.getWidth() / settings.numCols;
+        int maxHeight = view.getHeight() / settings.numRows;
+
+        MarbleButton.size = maxWidth < maxHeight ? maxWidth : maxHeight;
+        MarbleButton.marginLeft = (view.getWidth() - size * settings.numCols ) / 2;
+        MarbleButton.marginTop = (view.getHeight() - size * settings.numRows ) / 2;
     }
 }

@@ -16,6 +16,9 @@ import at.fhooe.mc.magicmarbles.game.elements.MarbleFactory;
 public class GameBoard {
     private GameActivity view;
     private Controller controller;
+    private List<Marble> removedMarbles;
+    private int score;
+    private int numMarbles;
 
     public void setView(GameActivity view) {
         this.view = view;
@@ -45,10 +48,21 @@ public class GameBoard {
         return list;
     }
 
+    public int getScore(){
+        return score;
+    }
+
+    public int getNumMarbles(){
+        return numMarbles;
+    }
+
     public GameBoard(Settings settings) {
+        this.removedMarbles = new ArrayList<>();
+        score = 0;
+        numMarbles = settings.numCols * settings.numRows;
         this.settings = settings;
         marbles = new Marble[settings.numCols][settings.numRows];
-        MarbleFactory factory = new MarbleFactory(settings.numCols * settings.numRows);
+        MarbleFactory factory = new MarbleFactory(numMarbles);
         for (int col = 0; col < marbles.length; col++) {
             for (int row = 0; row < marbles[col].length; row++) {
                 marbles[col][row] = factory.create();
@@ -70,20 +84,46 @@ public class GameBoard {
     }
 
     public void remove(Marble marble) {
-        int col = marble.getPosition().col;
-        int row = marble.getPosition().row;
-
-        if ((get(col - 1, row).isPresent() && get(col - 1, row).get().getColor().equals(marble.getColor())) ||
-                (get(col, row - 1).isPresent() && get(col, row - 1).get().getColor().equals(marble.getColor())) ||
-                (get(col + 1, row).isPresent() && get(col + 1, row).get().getColor().equals(marble.getColor())) ||
-                (get(col, row + 1).isPresent() && get(col, row + 1).get().getColor().equals(marble.getColor()))) {
+        if (hasNeighborWithSameColor(marble)) {
             // at least one neighbor with same color
+            removedMarbles.clear();
             removeInternal(marble, Optional.of(marble));
+            countScore();
             moveDown();
             moveRight();
             updatePositions();
             view.update();
+            checkGameOver();
         }
+    }
+
+    private boolean hasNeighborWithSameColor (Marble marble){
+        int col = marble.getPosition().col;
+        int row = marble.getPosition().row;
+
+        return (get(col - 1, row).isPresent() && get(col - 1, row).get().getColor().equals(marble.getColor())) ||
+                (get(col, row - 1).isPresent() && get(col, row - 1).get().getColor().equals(marble.getColor())) ||
+                (get(col + 1, row).isPresent() && get(col + 1, row).get().getColor().equals(marble.getColor())) ||
+                (get(col, row + 1).isPresent() && get(col, row + 1).get().getColor().equals(marble.getColor()));
+    }
+
+    private void countScore(){
+        int numRemovedMarbles = removedMarbles.size();
+        numMarbles = numMarbles - numRemovedMarbles;
+        score = score + numRemovedMarbles * numRemovedMarbles;
+    }
+
+    private void checkGameOver() {
+        for (Marble m: getMarbles()) {
+            if(m != null && hasNeighborWithSameColor(m)){
+                return;
+            }
+        }
+
+        // game over
+        score = score - numMarbles * 10;
+        view.update();
+        view.gameOver();
     }
 
     private void removeInternal(Marble source, Optional<Marble> marble) {
@@ -91,6 +131,7 @@ public class GameBoard {
             int col = marble.get().getPosition().col;
             int row = marble.get().getPosition().row;
 
+            removedMarbles.add(marbles[col][row]);
             marbles[col][row] = null;
             removeInternal(source, get(col - 1, row));
             removeInternal(source, get(col, row - 1));
