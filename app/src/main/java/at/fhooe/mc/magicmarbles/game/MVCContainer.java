@@ -11,8 +11,8 @@ public class MVCContainer {
     }
 
     void setView(GameActivity view){
-        model.setView(view);
         view.setModel(model);
         view.setController(controller);
+        model.setView(view);
     }
 }

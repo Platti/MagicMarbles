@@ -65,6 +65,7 @@ public class GameActivity extends Activity {
                     view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     MarbleButton.fitSize(view, model.getSettings());
                     model.getView().update();
+                    model.checkGameOver();
                 }
             });
         }

@@ -61,7 +61,6 @@ class GameBoard {
             }
         }
         updatePositions();
-
     }
 
     private void updatePositions() {
@@ -105,7 +104,7 @@ class GameBoard {
         score = score + numRemovedMarbles * numRemovedMarbles;
     }
 
-    private void checkGameOver() {
+    public void checkGameOver() {
         for (Marble m: getMarbles()) {
             if(m != null && hasNeighborWithSameColor(m)){
                 return;
