@@ -8,39 +8,31 @@ import java.util.Optional;
 import at.fhooe.mc.magicmarbles.game.elements.Marble;
 import at.fhooe.mc.magicmarbles.game.elements.MarbleFactory;
 
-/**
- * Created by Platti on 23.10.2017.
- */
 
 @SuppressWarnings("Since15")
-public class GameBoard {
+class GameBoard {
     private GameActivity view;
-    private Controller controller;
     private List<Marble> removedMarbles;
     private int score;
     private int numMarbles;
 
-    public void setView(GameActivity view) {
+    void setView(GameActivity view) {
         this.view = view;
     }
 
-    public GameActivity getView() {
+    GameActivity getView() {
         return view;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
 
     // --------------------------------------------
     private Settings settings;
     private Marble[][] marbles;
 
-    public Settings getSettings() {
+    Settings getSettings() {
         return settings;
     }
 
-    public List<Marble> getMarbles() {
+    List<Marble> getMarbles() {
         ArrayList list = new ArrayList();
         for (Marble[] col : marbles) {
             list.addAll(Arrays.asList(col));
@@ -48,15 +40,15 @@ public class GameBoard {
         return list;
     }
 
-    public int getScore(){
+    int getScore(){
         return score;
     }
 
-    public int getNumMarbles(){
+    int getNumMarbles(){
         return numMarbles;
     }
 
-    public GameBoard(Settings settings) {
+    GameBoard(Settings settings) {
         this.removedMarbles = new ArrayList<>();
         score = 0;
         numMarbles = settings.numCols * settings.numRows;
@@ -83,7 +75,7 @@ public class GameBoard {
         }
     }
 
-    public void remove(Marble marble) {
+    void remove(Marble marble) {
         if (hasNeighborWithSameColor(marble)) {
             // at least one neighbor with same color
             removedMarbles.clear();

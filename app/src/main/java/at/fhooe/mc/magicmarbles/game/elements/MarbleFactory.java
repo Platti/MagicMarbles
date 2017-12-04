@@ -1,9 +1,5 @@
 package at.fhooe.mc.magicmarbles.game.elements;
 
-/**
- * Created by Platti on 23.10.2017.
- */
-
 public class MarbleFactory {
     private int total;
     private int[] used;

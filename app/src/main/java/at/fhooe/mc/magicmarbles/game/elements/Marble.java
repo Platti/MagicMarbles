@@ -1,9 +1,5 @@
 package at.fhooe.mc.magicmarbles.game.elements;
 
-/**
- * Created by Platti on 23.10.2017.
- */
-
 public class Marble {
     private MarbleColor color;
     private Position position;
@@ -22,7 +18,7 @@ public class Marble {
     }
 
     public void vanish(){
-        position.col = -1;
-        position.row = -1;
+        position.col = -100;
+        position.row = -100;
     }
 }

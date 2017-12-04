@@ -3,7 +3,6 @@ package at.fhooe.mc.magicmarbles.game.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
@@ -11,11 +10,6 @@ import at.fhooe.mc.magicmarbles.R;
 import at.fhooe.mc.magicmarbles.game.GameActivity;
 import at.fhooe.mc.magicmarbles.game.Settings;
 import at.fhooe.mc.magicmarbles.game.elements.Marble;
-import at.fhooe.mc.magicmarbles.game.elements.MarbleColor;
-
-/**
- * Created by Platti on 23.10.2017.
- */
 
 public class MarbleButton extends ImageButton {
     private Marble marble;
@@ -33,7 +27,7 @@ public class MarbleButton extends ImageButton {
 
         setPadding(0, 0, 0, 0);
         setScaleType(ScaleType.FIT_XY);
-        setBackgroundColor(Color.WHITE);
+        setBackgroundColor(Color.TRANSPARENT);
         setOnClickListener(((GameActivity) context).getController());
 
         switch (marble.getColor()) {
